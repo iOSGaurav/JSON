@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Configuration Generator</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4cb5f5;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+        
+        .property-item {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .property-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .property-name {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .property-type {
+            font-style: italic;
+            color: var(--info);
+        }
+        
+        #jsonOutput {
+            min-height: 300px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .type-specific {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f4f8;
+            border-radius: 4px;
+        }
+        
+        .array-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .array-items {
+            margin-top: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JSON Configuration Generator</h1>
+            <p class="description">Create JSON configuration files for your application with support for various data types including boolean, integer, string, array, and object.</p>
+        </header>
+        
+        <div class="card">
+            <h2 class="card-title">Add New Property</h2>
+            <div class="form-group">
+                <label for="propertyName">Property Name</label>
+                <input type="text" id="propertyName" placeholder="Enter property name (e.g., timeout, enabled, services)">
+            </div>
+            
+            <div class="form-group">
+                <label for="propertyType">Data Type</label>
+                <select id="propertyType">
+                    <option value="string">String</option>
+                    <option value="number">Number</option>
+                    <option value="boolean">Boolean</option>
+                    <option value="array">Array</option>
+                    <option value="object">Object</option>
+                    <option value="null">Null</option>
+                </select>
+            </div>
+            
+            <div id="typeSpecificInputs">
+                <!-- Dynamic inputs based on type selection -->
+                <div class="form-group">
+                    <label for="stringValue">String Value</label>
+                    <input type="text" id="stringValue" placeholder="Enter string value">
+                </div>
+            </div>
+            
+            <button id="addPropertyBtn" class="btn-primary">Add Property</button>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Configuration Properties</h2>
+            <div id="propertiesList">
+                <!-- Properties will be added here dynamically -->
+                <p id="noProperties">No properties added yet. Start by adding a property.</p>
+            </div>
+        </div>
+        
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2 class="card-title">Generated JSON</h2>
+            <div id="jsonOutput">{}</div>
+            
+            <div class="actions">
+                <button id="generateJsonBtn" class="btn-primary">Generate JSON</button>
+                <button id="copyJsonBtn" class="btn-success">Copy to Clipboard</button>
+                <button id="resetBtn" class="btn-danger">Reset All</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="copyNotification">JSON copied to clipboard!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const propertyTypeSelect = document.getElementById('propertyType');
+            const typeSpecificInputs = document.getElementById('typeSpecificInputs');
+            const addPropertyBtn = document.getElementById('addPropertyBtn');
+            const propertiesList = document.getElementById('propertiesList');
+            const noProperties = document.getElementById('noProperties');
+            const generateJsonBtn = document.getElementById('generateJsonBtn');
+            const copyJsonBtn = document.getElementById('copyJsonBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const jsonOutput = document.getElementById('jsonOutput');
+            const notification = document.getElementById('copyNotification');
+            
+            let properties = [];
+            
+            // Update type-specific inputs based on selected type
+            propertyTypeSelect.addEventListener('change', updateTypeSpecificInputs);
+            
+            // Initialize type-specific inputs
+            updateTypeSpecificInputs();
+            
+            // Add property to the list
+            addPropertyBtn.addEventListener('click', addProperty);
+            
+            // Generate JSON
+            generateJsonBtn.addEventListener('click', generateJson);
+            
+            // Copy JSON to clipboard
+            copyJsonBtn.addEventListener('click', copyJsonToClipboard);
+            
+            // Reset all
+            resetBtn.addEventListener('click', resetAll);
+            
+            function updateTypeSpecificInputs() {
+                const type = propertyTypeSelect.value;
+                let html = '';
+                
+                switch(type) {
+                    case 'string':
+                        html = `
+                            <div class="form-group">
+                                <label for="stringValue">String Value</label>
+                                <input type="text" id="stringValue" placeholder="Enter string value">
+                            </div>
+                        `;
+                        break;
+                    case 'number':
+                        html = `
+                            <div class="form-group">
+                                <label for="numberValue">Number Value</label>
+                                <input type="number" id="numberValue" placeholder="Enter number value">
+                            </div>
+                        `;
+                        break;
+                    case 'boolean':
+                        html = `
+                            <div class="form-group">
+                                <label for="booleanValue">Boolean Value</label>
+                                <select id="booleanValue">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </div>
+                        `;
+                        break;
+                    case 'array':
+                        html = `
+                            <div class="form-group">
+                                <label for="arrayValue">Array Items (comma-separated)</label>
+                                <input type="text" id="arrayValue" placeholder="item1, item2, item3">
+                            </div>
+                        `;
+                        break;
+                    case 'object':
+                        html = `
+                            <div class="form-group">
+                                <label for="objectValue">JSON Object</label>
+                                <textarea id="objectValue" placeholder='{"key": "value"}' rows="4"></textarea>
+                                <small>Enter a valid JSON object</small>
+                            </div>
+                        `;
+                        break;
+                    case 'null':
+                        html = `<p>This property will have a null value.</p>`;
+                        break;
+                }
+                
+                typeSpecificInputs.innerHTML = html;
+            }
+            
+            function addProperty() {
+                const name = document.getElementById('propertyName').value.trim();
+                const type = propertyTypeSelect.value;
+                
+                if (!name) {
+                    alert('Please enter a property name');
+                    return;
+                }
+                
+                // Check if property with this name already exists
+                if (properties.some(prop => prop.name === name)) {
+                    alert('A property with this name already exists');
+                    return;
+                }
+                
+                let value;
+                
+                try {
+                    switch(type) {
+                        case 'string':
+                            value = document.getElementById('stringValue').value;
+                            break;
+                        case 'number':
+                            value = parseFloat(document.getElementById('numberValue').value);
+                            if (isNaN(value)) {
+                                alert('Please enter a valid number');
+                                return;
+                            }
+                            break;
+                        case 'boolean':
+                            value = document.getElementById('booleanValue').value === 'true';
+                            break;
+                        case 'array':
+                            const arrayInput = document.getElementById('arrayValue').value;
+                            value = arrayInput.split(',').map(item => item.trim()).filter(item => item !== '');
+                            break;
+                        case 'object':
+                            const objectInput = document.getElementById('objectValue').value;
+                            if (objectInput) {
+                                value = JSON.parse(objectInput);
+                            } else {
+                                value = {};
+                            }
+                            break;
+                        case 'null':
+                            value = null;
+                            break;
+                    }
+                } catch (error) {
+                    alert('Error parsing input: ' + error.message);
+                    return;
+                }
+                
+                properties.push({ name, type, value });
+                renderPropertiesList();
+                
+                // Reset form
+                document.getElementById('propertyName').value = '';
+                updateTypeSpecificInputs();
+            }
+            
+            function renderPropertiesList() {
+                if (properties.length === 0) {
+                    noProperties.style.display = 'block';
+                    propertiesList.innerHTML = '';
+                    return;
+                }
+                
+                noProperties.style.display = 'none';
+                propertiesList.innerHTML = '';
+                
+                properties.forEach((prop, index) => {
+                    const propElement = document.createElement('div');
+                    propElement.className = 'property-item';
+                    
+                    let valueDisplay = '';
+                    if (prop.type === 'array') {
+                        valueDisplay = `[${prop.value.join(', ')}]`;
+                    } else if (prop.type === 'object') {
+                        valueDisplay = JSON.stringify(prop.value);
+                    } else if (prop.type === 'null') {
+                        valueDisplay = 'null';
+                    } else {
+                        valueDisplay = prop.value.toString();
+                    }
+                    
+                    propElement.innerHTML = `
+                        <div class="property-header">
+                            <span class="property-name">${prop.name}</span>
+                            <span class="property-type">${prop.type}</span>
+                        </div>
+                        <div class="property-value">Value: ${valueDisplay}</div>
+                        <button class="btn-danger" onclick="removeProperty(${index})">Remove</button>
+                    `;
+                    
+                    propertiesList.appendChild(propElement);
+                });
+            }
+            
+            function generateJson() {
+                const config = {};
+                
+                properties.forEach(prop => {
+                    config[prop.name] = prop.value;
+                });
+                
+                jsonOutput.textContent = JSON.stringify(config, null, 2);
+            }
+            
+            function copyJsonToClipboard() {
+                const textArea = document.createElement('textarea');
+                textArea.value = jsonOutput.textContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                // Show notification
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            }
+            
+            function resetAll() {
+                if (confirm('Are you sure you want to reset all properties?')) {
+                    properties = [];
+                    renderPropertiesList();
+                    jsonOutput.textContent = '{}';
+                }
+            }
+            
+            // Make removeProperty function available globally
+            window.removeProperty = function(index) {
+                properties.splice(index, 1);
+                renderPropertiesList();
+            };
+        });
+    </script>
+</body>
+</html>

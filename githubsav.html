@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub JSON Saver</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4cb5f5;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --github-color: #24292e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-github {
+            background-color: var(--github-color);
+            color: white;
+        }
+        
+        .btn-github:hover {
+            opacity: 0.9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        #jsonInput {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 200px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .github-info {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .github-info h3 {
+            color: var(--github-color);
+            margin-bottom: 10px;
+        }
+        
+        .github-info ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .github-info li {
+            margin-bottom: 8px;
+        }
+        
+        .github-info code {
+            background-color: rgba(27, 31, 35, 0.05);
+            border-radius: 3px;
+            padding: 2px 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GitHub JSON Saver</h1>
+            <p class="description">Save your JSON files directly to a GitHub repository</p>
+        </header>
+        
+        <div class="github-info">
+            <h3>How to use:</h3>
+            <ul>
+                <li>Create a personal access token in GitHub with <code>repo</code> scope</li>
+                <li>Enter your GitHub username, repository name, and file path</li>
+                <li>Paste your JSON content or generate it using the JSON editor</li>
+                <li>Click "Save to GitHub" to commit the file to your repository</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">GitHub Configuration</h2>
+            
+            <div class="form-group">
+                <label for="githubToken">GitHub Personal Access Token</label>
+                <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            </div>
+            
+            <div class="form-group">
+                <label for="githubUsername">GitHub Username</label>
+                <input type="text" id="githubUsername" placeholder="your-username">
+            </div>
+            
+            <div class="form-group">
+                <label for="githubRepo">Repository Name</label>
+                <input type="text" id="githubRepo" placeholder="your-repo-name">
+            </div>
+            
+            <div class="form-group">
+                <label for="filePath">File Path in Repository</label>
+                <input type="text" id="filePath" placeholder="folder/config.json" value="config.json">
+            </div>
+            
+            <div class="form-group">
+                <label for="commitMessage">Commit Message</label>
+                <input type="text" id="commitMessage" placeholder="Add config file" value="Add config file">
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">JSON Content</h2>
+            
+            <div class="form-group">
+                <label for="jsonInput">JSON Data</label>
+                <textarea id="jsonInput" placeholder='{
+    "example": "data",
+    "number": 42,
+    "array": [1, 2, 3]
+}'></textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="validateJson" class="btn-primary">Validate JSON</button>
+                <button id="formatJson" class="btn-primary">Format JSON</button>
+                <button id="saveToGithub" class="btn-github">Save to GitHub</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">JSON Generator</h2>
+            
+            <div class="form-group">
+                <label for="propertyName">Property Name</label>
+                <input type="text" id="propertyName" placeholder="Enter property name">
+            </div>
+            
+            <div class="form-group">
+                <label for="propertyValue">Property Value</label>
+                <input type="text" id="propertyValue" placeholder="Enter property value">
+            </div>
+            
+            <div class="action-buttons">
+                <button id="addProperty" class="btn-primary">Add Property</button>
+                <button id="generateExample" class="btn-primary">Generate Example</button>
+                <button id="clearJson" class="btn-primary">Clear JSON</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Success!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const githubToken = document.getElementById('githubToken');
+            const githubUsername = document.getElementById('githubUsername');
+            const githubRepo = document.getElementById('githubRepo');
+            const filePath = document.getElementById('filePath');
+            const commitMessage = document.getElementById('commitMessage');
+            const jsonInput = document.getElementById('jsonInput');
+            const validateJsonBtn = document.getElementById('validateJson');
+            const formatJsonBtn = document.getElementById('formatJson');
+            const saveToGithubBtn = document.getElementById('saveToGithub');
+            const propertyName = document.getElementById('propertyName');
+            const propertyValue = document.getElementById('propertyValue');
+            const addPropertyBtn = document.getElementById('addProperty');
+            const generateExampleBtn = document.getElementById('generateExample');
+            const clearJsonBtn = document.getElementById('clearJson');
+            const notification = document.getElementById('notification');
+            
+            // Load saved data from localStorage if available
+            loadSavedData();
+            
+            // Validate JSON
+            validateJsonBtn.addEventListener('click', function() {
+                try {
+                    JSON.parse(jsonInput.value);
+                    showNotification('JSON is valid!');
+                } catch (error) {
+                    showNotification('Invalid JSON: ' + error.message, true);
+                }
+            });
+            
+            // Format JSON
+            formatJsonBtn.addEventListener('click', function() {
+                try {
+                    const parsedJson = JSON.parse(jsonInput.value);
+                    jsonInput.value = JSON.stringify(parsedJson, null, 2);
+                    showNotification('JSON formatted successfully!');
+                } catch (error) {
+                    showNotification('Invalid JSON: ' + error.message, true);
+                }
+            });
+            
+            // Save to GitHub
+            saveToGithubBtn.addEventListener('click', async function() {
+                // Validate inputs
+                if (!githubToken.value || !githubUsername.value || !githubRepo.value || !filePath.value) {
+                    showNotification('Please fill in all GitHub fields', true);
+                    return;
+                }
+                
+                // Validate JSON
+                let jsonData;
+                try {
+                    jsonData = JSON.parse(jsonInput.value);
+                } catch (error) {
+                    showNotification('Invalid JSON: ' + error.message, true);
+                    return;
+                }
+                
+                // Save data to localStorage
+                saveData();
+                
+                // Prepare API request
+                const apiUrl = `https://api.github.com/repos/${githubUsername.value}/${githubRepo.value}/contents/${filePath.value}`;
+                
+                // Check if file exists to get SHA for update
+                let sha = null;
+                try {
+                    const response = await fetch(apiUrl, {
+                        headers: {
+                            'Authorization': `token ${githubToken.value}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const fileData = await response.json();
+                        sha = fileData.sha;
+                    }
+                } catch (error) {
+                    // File doesn't exist, we'll create it
+                }
+                
+                // Create or update file
+                try {
+                    const content = btoa(unescape(encodeURIComponent(JSON.stringify(jsonData, null, 2))));
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${githubToken.value}`,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/vnd.github.v3+json'
+                        },
+                        body: JSON.stringify({
+                            message: commitMessage.value || 'Update JSON file',
+                            content: content,
+                            sha: sha
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        showNotification('File saved to GitHub successfully!');
+                        console.log('GitHub API response:', result);
+                    } else {
+                        const error = await response.json();
+                        showNotification('Error saving to GitHub: ' + error.message, true);
+                    }
+                } catch (error) {
+                    showNotification('Error: ' + error.message, true);
+                }
+            });
+            
+            // Add property to JSON
+            addPropertyBtn.addEventListener('click', function() {
+                if (!propertyName.value) {
+                    showNotification('Please enter a property name', true);
+                    return;
+                }
+                
+                let currentJson = {};
+                
+                // Try to parse existing JSON
+                if (jsonInput.value.trim()) {
+                    try {
+                        currentJson = JSON.parse(jsonInput.value);
+                    } catch (error) {
+                        showNotification('Invalid JSON. Clear or fix before adding properties.', true);
+                        return;
+                    }
+                }
+                
+                // Try to parse value as JSON, or use as string
+                let value;
+                try {
+                    value = JSON.parse(propertyValue.value);
+                } catch (error) {
+                    value = propertyValue.value;
+                }
+                
+                // Add new property
+                currentJson[propertyName.value] = value;
+                
+                // Update JSON input
+                jsonInput.value = JSON.stringify(currentJson, null, 2);
+                
+                // Clear input fields
+                propertyName.value = '';
+                propertyValue.value = '';
+                
+                showNotification('Property added successfully!');
+            });
+            
+            // Generate example JSON
+            generateExampleBtn.addEventListener('click', function() {
+                jsonInput.value = JSON.stringify({
+                    "name": "Example Configuration",
+                    "version": "1.0.0",
+                    "settings": {
+                        "debug": true,
+                        "maxItems": 100
+                    },
+                    "domains": [
+                        "example.com",
+                        "test.org"
+                    ]
+                }, null, 2);
+                
+                showNotification('Example JSON generated!');
+            });
+            
+            // Clear JSON
+            clearJsonBtn.addEventListener('click', function() {
+                jsonInput.value = '';
+                showNotification('JSON cleared!');
+            });
+            
+            // Show notification
+            function showNotification(message, isError = false) {
+                notification.textContent = message;
+                notification.classList.remove('error');
+                
+                if (isError) {
+                    notification.classList.add('error');
+                }
+                
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Save data to localStorage
+            function saveData() {
+                const data = {
+                    githubUsername: githubUsername.value,
+                    githubRepo: githubRepo.value,
+                    filePath: filePath.value,
+                    jsonData: jsonInput.value
+                };
+                
+                localStorage.setItem('githubJsonSaver', JSON.stringify(data));
+            }
+            
+            // Load saved data from localStorage
+            function loadSavedData() {
+                const savedData = localStorage.getItem('githubJsonSaver');
+                
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        githubUsername.value = data.githubUsername || '';
+                        githubRepo.value = data.githubRepo || '';
+                        filePath.value = data.filePath || 'config.json';
+                        jsonInput.value = data.jsonData || '';
+                    } catch (error) {
+                        console.error('Error loading saved data:', error);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

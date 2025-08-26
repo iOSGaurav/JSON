@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario & Steps Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Advanced JSON Configuration Generator</title>
+                <style>
+                    :root {
+                        --primary-color: #4a6fa5;
+                        --secondary-color: #166088;
+                        --accent-color: #4cb5f5;
+                        --light-color: #f8f9fa;
+                        --dark-color: #343a40;
+                        --success-color: #28a745;
+                        --danger-color: #dc3545;
+                        --warning-color: #ffc107;
+                        --info-color: #17a2b8;
+                    }
+                    
+                    * {
+                        box-sizing: border-box;
+                        margin: 0;
+                        padding: 0;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    }
+                    
+                    body {
+                        background-color: #f5f7f9;
+                        color: #333;
+                        line-height: 1.6;
+                        padding: 20px;
+                    }
+                    
+                    .container {
+                        max-width: 1400px;
+                        margin: 0 auto;
+                    }
+                    
+                    header {
+                        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                        color: white;
+                        padding: 1.5rem;
+                        border-radius: 8px;
+                        margin-bottom: 2rem;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        text-align: center;
+                    }
+                    
+                    h1 {
+                        font-size: 2.5rem;
+                        margin-bottom: 0.5rem;
+                    }
+                    
+                    .description {
+                        font-size: 1.1rem;
+                        max-width: 800px;
+                        margin: 0 auto;
+                    }
+                    
+                    .tabs {
+                        display: flex;
+                        margin-bottom: 20px;
+                        background: white;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+                    
+                    .tab {
+                        flex: 1;
+                        padding: 15px;
+                        text-align: center;
+                        background: #e9ecef;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        font-weight: 600;
+                    }
+                    
+                    .tab.active {
+                        background: var(--primary-color);
+                        color: white;
+                    }
+                    
+                    .tab-content {
+                        display: none;
+                    }
+                    
+                    .tab-content.active {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                    }
+                    
+                    @media (max-width: 992px) {
+                        .tab-content.active {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                    
+                    .card {
+                        background: white;
+                        border-radius: 8px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 20px;
+                    }
+                    
+                    .card-title {
+                        font-size: 1.5rem;
+                        color: var(--secondary-color);
+                        margin-bottom: 15px;
+                        padding-bottom: 10px;
+                        border-bottom: 2px solid var(--accent-color);
+                    }
+                    
+                    .form-group {
+                        margin-bottom: 15px;
+                    }
+                    
+                    label {
+                        display: block;
+                        margin-bottom: 5px;
+                        font-weight: 600;
+                    }
+                    
+                    input, select, textarea {
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        font-size: 1rem;
+                    }
+                    
+                    .checkbox-group {
+                        display: flex;
+                        align-items: center;
+                    }
+                    
+                    .checkbox-group input {
+                        width: auto;
+                        margin-right: 10px;
+                    }
+                    
+                    button {
+                        padding: 10px 15px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        transition: all 0.3s;
+                    }
+                    
+                    .btn-primary {
+                        background-color: var(--primary-color);
+                        color: white;
+                    }
+                    
+                    .btn-primary:hover {
+                        background-color: var(--secondary-color);
+                    }
+                    
+                    .btn-success {
+                        background-color: var(--success-color);
+                        color: white;
+                    }
+                    
+                    .btn-success:hover {
+                        opacity: 0.9;
+                    }
+                    
+                    .btn-danger {
+                        background-color: var(--danger-color);
+                        color: white;
+                    }
+                    
+                    .btn-danger:hover {
+                        opacity: 0.9;
+                    }
+                    
+                    .btn-warning {
+                        background-color: var(--warning-color);
+                        color: var(--dark-color);
+                    }
+                    
+                    .btn-warning:hover {
+                        background-color: #e0a800;
+                    }
+                    
+                    .btn-info {
+                        background-color: var(--info-color);
+                        color: white;
+                    }
+                    
+                    .btn-info:hover {
+                        opacity: 0.9;
+                    }
+                    
+                    .action-buttons {
+                        display: flex;
+                        gap: 10px;
+                        margin-top: 20px;
+                        flex-wrap: wrap;
+                    }
+                    
+                    .action-buttons button {
+                        flex: 1;
+                        min-width: 120px;
+                    }
+                    
+                    .proxy-pairs {
+                        margin-top: 10px;
+                    }
+                    
+                    .proxy-pair {
+                        display: flex;
+                        gap: 10px;
+                        margin-bottom: 10px;
+                    }
+                    
+                    .proxy-pair input {
+                        flex: 1;
+                    }
+                    
+                    .add-button {
+                        background-color: var(--accent-color);
+                        margin-top: 5px;
+                        color: white;
+                    }
+                    
+                    .feature-item, .property-item {
+                        background-color: #f8f9fa;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        padding: 15px;
+                        margin-bottom: 15px;
+                        border-left: 4px solid var(--accent-color);
+                    }
+                    
+                    .feature-header, .property-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 10px;
+                    }
+                    
+                    .feature-name, .property-name {
+                        font-weight: bold;
+                        color: var(--secondary-color);
+                    }
+                    
+                    .property-type {
+                        font-style: italic;
+                        color: var(--info-color);
+                    }
+                    
+                    .remove-btn {
+                        background-color: var(--danger-color);
+                        padding: 5px 10px;
+                        color: white;
+                        font-size: 0.9rem;
+                    }
+                    
+                    #jsonPreview, #jsonOutput {
+                        background-color: #f8f9fa;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        padding: 15px;
+                        min-height: 300px;
+                        max-height: 500px;
+                        overflow-y: auto;
+                        font-family: monospace;
+                        white-space: pre-wrap;
+                    }
+                    
+                    .file-input {
+                        margin-bottom: 1rem;
+                    }
+                    
+                    .hidden {
+                        display: none;
+                    }
+                    
+                    .notification {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        padding: 15px 20px;
+                        background-color: var(--success-color);
+                        color: white;
+                        border-radius: 4px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        transform: translateX(100%);
+                        transition: transform 0.3s ease;
+                        z-index: 1000;
+                    }
+                    
+                    .notification.show {
+                        transform: translateX(0);
+                    }
+                    
+                    .notification.error {
+                        background-color: var(--danger-color);
+                    }
+                    
+                    .type-specific {
+                        margin-top: 10px;
+                        padding: 10px;
+                        background-color: #f0f4f8;
+                        border-radius: 4px;
+                    }
+                    
+                    .array-item {
+                        display: flex;
+                        gap: 10px;
+                        margin-bottom: 10px;
+                        align-items: center;
+                    }
+                    
+                    .array-items {
+                        margin-top: 10px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <header>
+                        <h1>Advanced JSON Configuration Generator</h1>
+                        <p class="description">Create and manage JSON configurations for domain/feature resources and general properties with support for various data types</p>
+                    </header>
+                    
+                    <div class="tabs">
+                        <div class="tab active" data-tab="domain">Domain & Features</div>
+                        <div class="tab" data-tab="properties">General Properties</div>
+                    </div>
+                    
+                    <!-- Domain & Features Tab -->
+                    <div class="tab-content active" id="domainTab">
+                        <div class="card">
+                            <h2 class="card-title">Domain Configuration</h2>
+                            
+                            <div class="form-group">
+                                <label for="domainName">Domain Name:</label>
+                                <input type="text" id="domainName" placeholder="e.g., example.com">
+                            </div>
+                            
+                            <h3>Header Fields</h3>
+                            <div id="headerFields">
+                                <div class="form-group">
+                                    <label for="headerKey1">Key:</label>
+                                    <input type="text" id="headerKey1" placeholder="Header key">
+                                </div>
+                                <div class="form-group">
+                                    <label for="headerValue1">Value:</label>
+                                    <input type="text" id="headerValue1" placeholder="Header value">
+                                </div>
+                            </div>
+                            <button id="addHeaderField" class="add-button">Add Header Field</button>
+                            
+                            <h2 class="card-title">Feature Configuration</h2>
+                            <div id="featuresContainer">
+                                <!-- Feature forms will be added here dynamically -->
+                            </div>
+                            <button id="addFeature" class="add-button">Add Feature</button>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">JSON Preview</h2>
+                            <div id="jsonPreview">{
+                "domain": {},
+                "features": {}
+            }</div>
+                            
+                            <div class="action-buttons">
+                                <button id="generateJson" class="btn-success">Generate JSON</button>
+                                <button id="importJson" class="btn-warning">Import JSON</button>
+                                <button id="downloadJson" class="btn-success" disabled>Download JSON</button>
+                                <button id="resetForm" class="btn-danger">Reset Form</button>
+                            </div>
+                            
+                            <input type="file" id="jsonFileInput" class="file-input hidden" accept=".json">
+                        </div>
+                    </div>
+                    
+                    <!-- General Properties Tab -->
+                    <div class="tab-content" id="propertiesTab">
+                        <div class="card">
+                            <h2 class="card-title">Add New Property</h2>
+                            <div class="form-group">
+                                <label for="propertyName">Property Name</label>
+                                <input type="text" id="propertyName" placeholder="Enter property name (e.g., timeout, enabled, services)">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="propertyType">Data Type</label>
+                                <select id="propertyType">
+                                    <option value="string">String</option>
+                                    <option value="number">Number</option>
+                                    <option value="boolean">Boolean</option>
+                                    <option value="array">Array</option>
+                                    <option value="object">Object</option>
+                                    <option value="null">Null</option>
+                                </select>
+                            </div>
+                            
+                            <div id="typeSpecificInputs">
+                                <!-- Dynamic inputs based on type selection -->
+                                <div class="form-group">
+                                    <label for="stringValue">String Value</label>
+                                    <input type="text" id="stringValue" placeholder="Enter string value">
+                                </div>
+                            </div>
+                            
+                            <button id="addPropertyBtn" class="btn-primary">Add Property</button>
+                            
+                            <h2 class="card-title">Configuration Properties</h2>
+                            <div id="propertiesList">
+                                <!-- Properties will be added here dynamically -->
+                                <p id="noProperties">No properties added yet. Start by adding a property.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">Generated JSON</h2>
+                            <div id="jsonOutput">{}</div>
+                            
+                            <div class="action-buttons">
+                                <button id="generatePropsJsonBtn" class="btn-primary">Generate JSON</button>
+                                <button id="copyJsonBtn" class="btn-success">Copy to Clipboard</button>
+                                <button id="importPropsJsonBtn" class="btn-warning">Import JSON</button>
+                                <button id="downloadPropsJsonBtn" class="btn-success" disabled>Download JSON</button>
+                                <button id="resetPropsBtn" class="btn-danger">Reset All</button>
+                            </div>
+                            
+                            <input type="file" id="propsJsonFileInput" class="file-input hidden" accept=".json">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notification" id="copyNotification">JSON copied to clipboard!</div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Tab functionality
+                        const tabs = document.querySelectorAll('.tab');
+                        const tabContents = document.querySelectorAll('.tab-content');
+                        
+                        tabs.forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                const tabId = tab.getAttribute('data-tab');
+                                
+                                // Update active tab
+                                tabs.forEach(t => t.classList.remove('active'));
+                                tab.classList.add('active');
+                                
+                                // Show active tab content
+                                tabContents.forEach(content => content.classList.remove('active'));
+                                document.getElementById(`${tabId}Tab`).classList.add('active');
+                            });
+                        });
+                        
+                        // Domain & Features functionality
+                        const domainNameInput = document.getElementById('domainName');
+                        const headerFieldsContainer = document.getElementById('headerFields');
+                        const featuresContainer = document.getElementById('featuresContainer');
+                        const addHeaderFieldBtn = document.getElementById('addHeaderField');
+                        const addFeatureBtn = document.getElementById('addFeature');
+                        const generateJsonBtn = document.getElementById('generateJson');
+                        const importJsonBtn = document.getElementById('importJson');
+                        const downloadJsonBtn = document.getElementById('downloadJson');
+                        const resetFormBtn = document.getElementById('resetForm');
+                        const jsonFileInput = document.getElementById('jsonFileInput');
+                        const jsonPreview = document.getElementById('jsonPreview');
+                        
+                        let headerFieldCount = 1;
+                        let featureCount = 0;
+                        
+                        // Add header field
+                        addHeaderFieldBtn.addEventListener('click', function() {
+                            headerFieldCount++;
+                            const headerFieldHtml = `
+                                <div class="form-group">
+                                    <label for="headerKey${headerFieldCount}">Key:</label>
+                                    <input type="text" id="headerKey${headerFieldCount}" placeholder="Header key">
+                                </div>
+                                <div class="form-group">
+                                    <label for="headerValue${headerFieldCount}">Value:</label>
+                                    <input type="text" id="headerValue${headerFieldCount}" placeholder="Header value">
+                                </div>
+                            `;
+                            headerFieldsContainer.insertAdjacentHTML('beforeend', headerFieldHtml);
+                        });
+                        
+                        // Add feature
+                        addFeatureBtn.addEventListener('click', function() {
+                            featureCount++;
+                            const featureHtml = `
+                                <div class="feature-item" data-feature-id="${featureCount}">
+                                    <div class="feature-header">
+                                        <span class="feature-name">Feature ${featureCount}</span>
+                                        <button class="remove-btn remove-feature">Remove</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="featureName${featureCount}">Feature Name:</label>
+                                        <input type="text" id="featureName${featureCount}" placeholder="Feature name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="featureHost${featureCount}">Host:</label>
+                                        <input type="text" id="featureHost${featureCount}" placeholder="e.g., api.example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Proxy:</label>
+                                        <div class="proxy-pairs" id="proxyPairs${featureCount}">
+                                            <div class="proxy-pair">
+                                                <input type="text" placeholder="Proxy key" class="proxy-key">
+                                                <input type="text" placeholder="Proxy value" class="proxy-value">
+                                            </div>
+                                        </div>
+                                        <button class="add-button add-proxy" data-feature="${featureCount}">Add Proxy Pair</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="featureMethod${featureCount}">Method:</label>
+                                        <select id="featureMethod${featureCount}">
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PUT">PUT</option>
+                                            <option value="DELETE">DELETE</option>
+                                            <option value="PATCH">PATCH</option>
+                                            <option value="HEAD">HEAD</option>
+                                            <option value="OPTIONS">OPTIONS</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="featureHeader${featureCount}">
+                                        <label for="featureHeader${featureCount}">Header</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="featureCategory${featureCount}">Category:</label>
+                                        <input type="text" id="featureCategory${featureCount}" placeholder="Category">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="featureFilePath${featureCount}">File Path:</label>
+                                        <input type="text" id="featureFilePath${featureCount}" placeholder="e.g., /path/to/file">
+                                    </div>
+                                </div>
+                            `;
+                            featuresContainer.insertAdjacentHTML('beforeend', featureHtml);
+                            
+                            // Add event listener for the new proxy button
+                            document.querySelector(`.add-proxy[data-feature="${featureCount}"]`).addEventListener('click', function() {
+                                const proxyPairsContainer = document.getElementById(`proxyPairs${featureCount}`);
+                                const proxyPairHtml = `
+                                    <div class="proxy-pair">
+                                        <input type="text" placeholder="Proxy key" class="proxy-key">
+                                        <input type="text" placeholder="Proxy value" class="proxy-value">
+                                    </div>
+                                `;
+                                proxyPairsContainer.insertAdjacentHTML('beforeend', proxyPairHtml);
+                            });
+                            
+                            // Add event listener for the remove feature button
+                            const featureElement = document.querySelector(`[data-feature-id="${featureCount}"]`);
+                            featureElement.querySelector('.remove-feature').addEventListener('click', function() {
+                                featureElement.remove();
+                            });
+                        });
+                        
+                        // Generate JSON for domain/features
+                        generateJsonBtn.addEventListener('click', function() {
+                            const domainName = domainNameInput.value || 'example.com';
+                            
+                            // Collect header fields
+                            const headers = {};
+                            for (let i = 1; i <= headerFieldCount; i++) {
+                                const keyInput = document.getElementById(`headerKey${i}`);
+                                const valueInput = document.getElementById(`headerValue${i}`);
+                                
+                                if (keyInput && valueInput && keyInput.value && valueInput.value) {
+                                    headers[keyInput.value] = valueInput.value;
+                                }
+                            }
+                            
+                            // Collect features
+                            const features = {};
+                            const featureElements = document.querySelectorAll('.feature-item');
+                            
+                            featureElements.forEach(featureElement => {
+                                const featureId = featureElement.dataset.featureId;
+                                const nameInput = document.getElementById(`featureName${featureId}`);
+                                
+                                if (nameInput && nameInput.value) {
+                                    const hostInput = document.getElementById(`featureHost${featureId}`);
+                                    const methodSelect = document.getElementById(`featureMethod${featureId}`);
+                                    const headerCheckbox = document.getElementById(`featureHeader${featureId}`);
+                                    const categoryInput = document.getElementById(`featureCategory${featureId}`);
+                                    const filePathInput = document.getElementById(`featureFilePath${featureId}`);
+                                    
+                                    // Collect proxy pairs
+                                    const proxy = {};
+                                    const proxyPairs = featureElement.querySelectorAll('.proxy-pair');
+                                    proxyPairs.forEach(pair => {
+                                        const keyInput = pair.querySelector('.proxy-key');
+                                        const valueInput = pair.querySelector('.proxy-value');
+                                        
+                                        if (keyInput.value && valueInput.value) {
+                                            proxy[keyInput.value] = valueInput.value;
+                                        }
+                                    });
+                                    
+                                    features[nameInput.value] = {
+                                        host: hostInput ? hostInput.value : '',
+                                        proxy: proxy,
+                                        method: methodSelect ? methodSelect.value : 'GET',
+                                        header: headerCheckbox ? headerCheckbox.checked : false,
+                                        category: categoryInput ? categoryInput.value : '',
+                                        filepath: filePathInput ? filePathInput.value : ''
+                                    };
+                                }
+                            });
+                            
+                            // Create the final JSON object
+                            const jsonData = {
+                                domain: {
+                                    name: domainName,
+                                    headers: headers
+                                },
+                                features: features
+                            };
+                            
+                            // Display the JSON
+                            jsonPreview.textContent = JSON.stringify(jsonData, null, 2);
+                            downloadJsonBtn.disabled = false;
+                        });
+                        
+                        // Import JSON for domain/features
+                        importJsonBtn.addEventListener('click', function() {
+                            jsonFileInput.click();
+                        });
+                        
+                        jsonFileInput.addEventListener('change', function(e) {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                try {
+                                    const jsonData = JSON.parse(e.target.result);
+                                    populateFormFromJson(jsonData);
+                                    jsonPreview.textContent = JSON.stringify(jsonData, null, 2);
+                                    downloadJsonBtn.disabled = false;
+                                } catch (error) {
+                                    alert('Error parsing JSON file: ' + error.message);
+                                }
+                            };
+                            reader.readAsText(file);
+                        });
+                        
+                        // Populate form from JSON data
+                        function populateFormFromJson(jsonData) {
+                            // Reset form first
+                            resetForm();
+                            
+                            // Set domain name
+                            if (jsonData.domain && jsonData.domain.name) {
+                                domainNameInput.value = jsonData.domain.name;
+                            }
+                            
+                            // Set header fields
+                            if (jsonData.domain && jsonData.domain.headers) {
+                                const headers = jsonData.domain.headers;
+                                let headerIndex = 1;
+                                
+                                for (const [key, value] of Object.entries(headers)) {
+                                    if (headerIndex > 1) {
+                                        addHeaderFieldBtn.click();
+                                    }
+                                    
+                                    document.getElementById(`headerKey${headerIndex}`).value = key;
+                                    document.getElementById(`headerValue${headerIndex}`).value = value;
+                                    headerIndex++;
+                                }
+                            }
+                            
+                            // Set features
+                            if (jsonData.features) {
+                                for (const [name, feature] of Object.entries(jsonData.features)) {
+                                    addFeatureBtn.click();
+                                    
+                                    const featureId = featureCount;
+                                    document.getElementById(`featureName${featureId}`).value = name;
+                                    
+                                    if (feature.host) {
+                                        document.getElementById(`featureHost${featureId}`).value = feature.host;
+                                    }
+                                    
+                                    if (feature.method) {
+                                        document.getElementById(`featureMethod${featureId}`).value = feature.method;
+                                    }
+                                    
+                                    if (typeof feature.header === 'boolean') {
+                                        document.getElementById(`featureHeader${featureId}`).checked = feature.header;
+                                    }
+                                    
+                                    if (feature.category) {
+                                        document.getElementById(`featureCategory${featureId}`).value = feature.category;
+                                    }
+                                    
+                                    if (feature.filepath) {
+                                        document.getElementById(`featureFilePath${featureId}`).value = feature.filepath;
+                                    }
+                                    
+                                    // Set proxy pairs
+                                    if (feature.proxy) {
+                                        const proxyContainer = document.getElementById(`proxyPairs${featureId}`);
+                                        // Remove the default proxy pair
+                                        proxyContainer.innerHTML = '';
+                                        
+                                        for (const [key, value] of Object.entries(feature.proxy)) {
+                                            const proxyPairHtml = `
+                                                <div class="proxy-pair">
+                                                    <input type="text" placeholder="Proxy key" class="proxy-key" value="${key}">
+                                                    <input type="text" placeholder="Proxy value" class="proxy-value" value="${value}">
+                                                </div>
+                                            `;
+                                            proxyContainer.insertAdjacentHTML('beforeend', proxyPairHtml);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Download JSON for domain/features
+                        downloadJsonBtn.addEventListener('click', function() {
+                            const jsonString = jsonPreview.textContent;
+                            if (!jsonString || jsonString === '{}') {
+                                alert('Please generate JSON first');
+                                return;
+                            }
+                            
+                            try {
+                                JSON.parse(jsonString); // Validate JSON
+                                const blob = new Blob([jsonString], { type: 'application/json' });
+                                const url = URL.createObjectURL(blob);
+                                
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'domain-configuration.json';
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                            } catch (error) {
+                                alert('Error in JSON: ' + error.message);
+                            }
+                        });
+                        
+                        // Reset form for domain/features
+                        resetFormBtn.addEventListener('click', resetForm);
+                        
+                        function resetForm() {
+                            domainNameInput.value = '';
+                            headerFieldsContainer.innerHTML = `
+                                <div class="form-group">
+                                    <label for="headerKey1">Key:</label>
+                                    <input type="text" id="headerKey1" placeholder="Header key">
+                                </div>
+                                <div class="form-group">
+                                    <label for="headerValue1">Value:</label>
+                                    <input type="text" id="headerValue1" placeholder="Header value">
+                                </div>
+                            `;
+                            featuresContainer.innerHTML = '';
+                            jsonPreview.textContent = '{\n    "domain": {},\n    "features": {}\n}';
+                            downloadJsonBtn.disabled = true;
+                            headerFieldCount = 1;
+                            featureCount = 0;
+                        }
+                        
+                        // Properties functionality
+                        const propertyTypeSelect = document.getElementById('propertyType');
+                        const typeSpecificInputs = document.getElementById('typeSpecificInputs');
+                        const addPropertyBtn = document.getElementById('addPropertyBtn');
+                        const propertiesList = document.getElementById('propertiesList');
+                        const noProperties = document.getElementById('noProperties');
+                        const generatePropsJsonBtn = document.getElementById('generatePropsJsonBtn');
+                        const copyJsonBtn = document.getElementById('copyJsonBtn');
+                        const importPropsJsonBtn = document.getElementById('importPropsJsonBtn');
+                        const downloadPropsJsonBtn = document.getElementById('downloadPropsJsonBtn');
+                        const resetPropsBtn = document.getElementById('resetPropsBtn');
+                        const jsonOutput = document.getElementById('jsonOutput');
+                        const propsJsonFileInput = document.getElementById('propsJsonFileInput');
+                        const notification = document.getElementById('copyNotification');
+                        
+                        let properties = [];
+                        
+                        // Update type-specific inputs based on selected type
+                        propertyTypeSelect.addEventListener('change', updateTypeSpecificInputs);
+                        
+                        // Initialize type-specific inputs
+                        updateTypeSpecificInputs();
+                        
+                        // Add property to the list
+                        addPropertyBtn.addEventListener('click', addProperty);
+                        
+                        // Generate JSON for properties
+                        generatePropsJsonBtn.addEventListener('click', generatePropsJson);
+                        
+                        // Copy JSON to clipboard
+                        copyJsonBtn.addEventListener('click', copyJsonToClipboard);
+                        
+                        // Import JSON for properties
+                        importPropsJsonBtn.addEventListener('click', function() {
+                            propsJsonFileInput.click();
+                        });
+                        
+                        propsJsonFileInput.addEventListener('change', function(e) {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                try {
+                                    const jsonData = JSON.parse(e.target.result);
+                                    populatePropertiesFromJson(jsonData);
+                                    generatePropsJson();
+                                    downloadPropsJsonBtn.disabled = false;
+                                    showNotification('JSON imported successfully!');
+                                } catch (error) {
+                                    showNotification('Error parsing JSON file: ' + error.message, true);
+                                }
+                            };
+                            reader.readAsText(file);
+                        });
+                        
+                        // Download JSON for properties
+                        downloadPropsJsonBtn.addEventListener('click', function() {
+                            const jsonString = jsonOutput.textContent;
+                            if (!jsonString || jsonString === '{}') {
+                                alert('Please generate JSON first');
+                                return;
+                            }
+                            
+                            try {
+                                JSON.parse(jsonString); // Validate JSON
+                                const blob = new Blob([jsonString], { type: 'application/json' });
+                                const url = URL.createObjectURL(blob);
+                                
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'properties-configuration.json';
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                            } catch (error) {
+                                alert('Error in JSON: ' + error.message);
+                            }
+                        });
+                        
+                        // Reset all properties
+                        resetPropsBtn.addEventListener('click', resetAllProperties);
+                        
+                        function updateTypeSpecificInputs() {
+                            const type = propertyTypeSelect.value;
+                            let html = '';
+                            
+                            switch(type) {
+                                case 'string':
+                                    html = `
+                                        <div class="form-group">
+                                            <label for="stringValue">String Value</label>
+                                            <input type="text" id="stringValue" placeholder="Enter string value">
+                                        </div>
+                                    `;
+                                    break;
+                                case 'number':
+                                    html = `
+                                        <div class="form-group">
+                                            <label for="numberValue">Number Value</label>
+                                            <input type="number" id="numberValue" placeholder="Enter number value">
+                                        </div>
+                                    `;
+                                    break;
+                                case 'boolean':
+                                    html = `
+                                        <div class="form-group">
+                                            <label for="booleanValue">Boolean Value</label>
+                                            <select id="booleanValue">
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                        </div>
+                                    `;
+                                    break;
+                                case 'array':
+                                    html = `
+                                        <div class="form-group">
+                                            <label for="arrayValue">Array Items (comma-separated)</label>
+                                            <input type="text" id="arrayValue" placeholder="item1, item2, item3">
+                                        </div>
+                                    `;
+                                    break;
+                                case 'object':
+                                    html = `
+                                        <div class="form-group">
+                                            <label for="objectValue">JSON Object</label>
+                                            <textarea id="objectValue" placeholder='{"key": "value"}' rows="4"></textarea>
+                                            <small>Enter a valid JSON object</small>
+                                        </div>
+                                    `;
+                                    break;
+                                case 'null':
+                                    html = `<p>This property will have a null value.</p>`;
+                                    break;
+                            }
+                            
+                            typeSpecificInputs.innerHTML = html;
+                        }
+                        
+                        function addProperty() {
+                            const name = document.getElementById('propertyName').value.trim();
+                            const type = propertyTypeSelect.value;
+                            
+                            if (!name) {
+                                showNotification('Please enter a property name', true);
+                                return;
+                            }
+                            
+                            // Check if property with this name already exists
+                            if (properties.some(prop => prop.name === name)) {
+                                showNotification('A property with this name already exists', true);
+                                return;
+                            }
+                            
+                            let value;
+                            
+                            try {
+                                switch(type) {
+                                    case 'string':
+                                        value = document.getElementById('stringValue').value;
+                                        break;
+                                    case 'number':
+                                        value = parseFloat(document.getElementById('numberValue').value);
+                                        if (isNaN(value)) {
+                                            showNotification('Please enter a valid number', true);
+                                            return;
+                                        }
+                                        break;
+                                    case 'boolean':
+                                        value = document.getElementById('booleanValue').value === 'true';
+                                        break;
+                                    case 'array':
+                                        const arrayInput = document.getElementById('arrayValue').value;
+                                        value = arrayInput.split(',').map(item => item.trim()).filter(item => item !== '');
+                                        break;
+                                    case 'object':
+                                        const objectInput = document.getElementById('objectValue').value;
+                                        if (objectInput) {
+                                            value = JSON.parse(objectInput);
+                                        } else {
+                                            value = {};
+                                        }
+                                        break;
+                                    case 'null':
+                                        value = null;
+                                        break;
+                                }
+                            } catch (error) {
+                                showNotification('Error parsing input: ' + error.message, true);
+                                return;
+                            }
+                            
+                            properties.push({ name, type, value });
+                            renderPropertiesList();
+                            
+                            // Reset form
+                            document.getElementById('propertyName').value = '';
+                            updateTypeSpecificInputs();
+                            
+                            showNotification('Property added successfully!');
+                        }
+                        
+                        function renderPropertiesList() {
+                            if (properties.length === 0) {
+                                noProperties.style.display = 'block';
+                                propertiesList.innerHTML = '';
+                                return;
+                            }
+                            
+                            noProperties.style.display = 'none';
+                            propertiesList.innerHTML = '';
+                            
+                            properties.forEach((prop, index) => {
+                                const propElement = document.createElement('div');
+                                propElement.className = 'property-item';
+                                
+                                let valueDisplay = '';
+                                if (prop.type === 'array') {
+                                    valueDisplay = `[${prop.value.join(', ')}]`;
+                                } else if (prop.type === 'object') {
+                                    valueDisplay = JSON.stringify(prop.value);
+                                } else if (prop.type === 'null') {
+                                    valueDisplay = 'null';
+                                } else {
+                                    valueDisplay = prop.value.toString();
+                                }
+                                
+                                propElement.innerHTML = `
+                                    <div class="property-header">
+                                        <span class="property-name">${prop.name}</span>
+                                        <span class="property-type">${prop.type}</span>
+                                    </div>
+                                    <div class="property-value">Value: ${valueDisplay}</div>
+                                    <button class="remove-btn" onclick="removeProperty(${index})">Remove</button>
+                                `;
+                                
+                                propertiesList.appendChild(propElement);
+                            });
+                        }
+                        
+                        function generatePropsJson() {
+                            const config = {};
+                            
+                            properties.forEach(prop => {
+                                config[prop.name] = prop.value;
+                            });
+                            
+                            jsonOutput.textContent = JSON.stringify(config, null, 2);
+                            downloadPropsJsonBtn.disabled = false;
+                        }
+                        
+                        function copyJsonToClipboard() {
+                            const textArea = document.createElement('textarea');
+                            textArea.value = jsonOutput.textContent;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            
+                            showNotification('JSON copied to clipboard!');
+                        }
+                        
+                        function populatePropertiesFromJson(jsonData) {
+                            properties = [];
+                            
+                            for (const [name, value] of Object.entries(jsonData)) {
+                                let type;
+                                
+                                if (Array.isArray(value)) {
+                                    type = 'array';
+                                } else if (value === null) {
+                                    type = 'null';
+                                } else if (typeof value === 'object') {
+                                    type = 'object';
+                                } else {
+                                    type = typeof value;
+                                }
+                                
+                                properties.push({ name, type, value });
+                            }
+                            
+                            renderPropertiesList();
+                        }
+                        
+                        function resetAllProperties() {
+                            if (confirm('Are you sure you want to reset all properties?')) {
+                                properties = [];
+                                renderPropertiesList();
+                                jsonOutput.textContent = '{}';
+                                downloadPropsJsonBtn.disabled = true;
+                                showNotification('All properties have been reset');
+                            }
+                        }
+                        
+                        function showNotification(message, isError = false) {
+                            const notification = document.getElementById('copyNotification');
+                            notification.textContent = message;
+                            notification.classList.remove('error');
+                            
+                            if (isError) {
+                                notification.classList.add('error');
+                            }
+                            
+                            notification.classList.add('show');
+                            setTimeout(() => {
+                                notification.classList.remove('show');
+                            }, 3000);
+                        }
+                        
+                        // Make removeProperty function available globally
+                        window.removeProperty = function(index) {
+                            properties.splice(index, 1);
+                            renderPropertiesList();
+                            showNotification('Property removed');
+                        };
+                    });
+                </script>
+            </body>
+            </html>
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .elements-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preview-section {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            color: #2c3e50;
+        }
+        
+        h3 {
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .step-list {
+            margin-top: 20px;
+        }
+        
+        .step-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .element-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .step-actions, .element-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .btn-remove {
+            background-color: #e74c3c;
+        }
+        
+        .btn-remove:hover {
+            background-color: #c0392b;
+        }
+        
+        .json-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            min-height: 200px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-generate {
+            background-color: #2ecc71;
+        }
+        
+        .btn-generate:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-copy {
+            background-color: #9b59b6;
+        }
+        
+        .btn-copy:hover {
+            background-color: #8e44ad;
+        }
+        
+        .btn-reset {
+            background-color: #e67e22;
+        }
+        
+        .btn-reset:hover {
+            background-color: #d35400;
+        }
+        
+        .btn-download {
+            background-color: #1abc9c;
+        }
+        
+        .btn-download:hover {
+            background-color: #16a085;
+        }
+        
+        .btn-import {
+            background-color: #f39c12;
+        }
+        
+        .btn-import:hover {
+            background-color: #d35400;
+        }
+        
+        .scenario-list {
+            margin-top: 20px;
+        }
+        
+        .scenario-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .optional-badge {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+        
+        .import-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff8e1;
+            border-radius: 6px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .file-input {
+            margin: 10px 0;
+        }
+        
+        .import-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .element-selector {
+            font-family: 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Scenario & Steps Generator</h1>
+            <p class="description">Create test scenarios with steps and UI elements. Export as JSON with both scenarios and elements.</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2>Create New Scenario</h2>
+                
+                <div class="form-group">
+                    <label for="scenario-name">Scenario Name</label>
+                    <input type="text" id="scenario-name" placeholder="Enter scenario name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="existing-scenarios">Reference Existing Scenario (Optional)</label>
+                    <select id="existing-scenarios">
+                        <option value="">-- Select a scenario --</option>
+                    </select>
+                </div>
+                
+                <h3>Add Steps</h3>
+                
+                <div class="form-group">
+                    <label for="step-action">Action <span class="optional-badge">(Required)</span></label>
+                    <select id="step-action">
+                        <option value="">-- Select an action --</option>
+                        <option value="click">Click</option>
+                        <option value="type">Type</option>
+                        <option value="select">Select</option>
+                        <option value="navigate">Navigate</option>
+                        <option value="wait">Wait</option>
+                        <option value="verify">Verify</option>
+                        <option value="scroll">Scroll</option>
+                        <option value="hover">Hover</option>
+                        <option value="double-click">Double Click</option>
+                        <option value="right-click">Right Click</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="step-target">Target <span class="optional-badge">(Required)</span></label>
+                    <select id="step-target">
+                        <option value="">-- Select an element --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="step-value">Value <span class="optional-badge">(Optional - will be excluded if empty)</span></label>
+                    <input type="text" id="step-value" placeholder="Enter value if needed">
+                </div>
+                
+                <div class="form-group">
+                    <label for="step-snapshot">Snapshot Name <span class="optional-badge">(Optional - will be excluded if empty)</span></label>
+                    <input type="text" id="step-snapshot" placeholder="Enter snapshot name">
+                </div>
+                
+                <button id="add-step">Add Step</button>
+                
+                <div class="step-list">
+                    <h3>Current Steps</h3>
+                    <div id="steps-container">
+                        <div class="empty-state">No steps added yet</div>
+                    </div>
+                </div>
+                
+                <button id="save-scenario" style="margin-top: 20px; width: 100%;">Save Scenario</button>
+                
+                <div class="import-section">
+                    <h3>Import JSON</h3>
+                    <p>Upload a JSON file to import existing data:</p>
+                    <input type="file" id="json-file" class="file-input" accept=".json">
+                    <div class="import-actions">
+                        <button id="import-json" class="btn-import">Import JSON</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="elements-section">
+                <h2>UI Elements Library</h2>
+                
+                <div class="form-group">
+                    <label for="element-name">Element Name</label>
+                    <input type="text" id="element-name" placeholder="Enter element name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="element-selector">Selector</label>
+                    <input type="text" id="element-selector" placeholder="e.g., #submit-button">
+                </div>
+                
+                <div class="form-group">
+                    <label for="element-type">Element Type</label>
+                    <select id="element-type">
+                        <option value="">-- Select type --</option>
+                        <option value="button">Button</option>
+                        <option value="input">Input Field</option>
+                        <option value="dropdown">Dropdown</option>
+                        <option value="link">Link</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="radio">Radio Button</option>
+                        <option value="text">Text Element</option>
+                        <option value="container">Container</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="element-description">Description (Optional)</label>
+                    <textarea id="element-description" placeholder="Describe this element" rows="3"></textarea>
+                </div>
+                
+                <button id="add-element">Add Element</button>
+                
+                <div class="element-list">
+                    <h3>Saved Elements</h3>
+                    <div id="elements-container">
+                        <div class="empty-state">No elements added yet</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h2>JSON Output</h2>
+                <div class="json-output" id="json-output">{
+    "scenarios": [],
+    "elements": []
+}</div>
+                
+                <div class="actions">
+                    <button class="btn-generate" id="generate-json">Generate JSON</button>
+                    <button class="btn-copy" id="copy-json">Copy to Clipboard</button>
+                    <button class="btn-download" id="download-json">Download JSON</button>
+                    <button class="btn-reset" id="reset-all">Reset All</button>
+                </div>
+                
+                <div class="scenario-list">
+                    <h2>Saved Scenarios</h2>
+                    <div id="scenarios-container">
+                        <div class="empty-state">No scenarios saved yet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data storage
+            let scenarios = [];
+            let elements = [];
+            let currentSteps = [];
+            
+            // DOM elements
+            const scenarioNameInput = document.getElementById('scenario-name');
+            const existingScenariosSelect = document.getElementById('existing-scenarios');
+            const stepActionInput = document.getElementById('step-action');
+            const stepTargetInput = document.getElementById('step-target');
+            const stepValueInput = document.getElementById('step-value');
+            const stepSnapshotInput = document.getElementById('step-snapshot');
+            const addStepButton = document.getElementById('add-step');
+            const stepsContainer = document.getElementById('steps-container');
+            const saveScenarioButton = document.getElementById('save-scenario');
+            const jsonOutput = document.getElementById('json-output');
+            const generateJsonButton = document.getElementById('generate-json');
+            const copyJsonButton = document.getElementById('copy-json');
+            const downloadJsonButton = document.getElementById('download-json');
+            const resetAllButton = document.getElementById('reset-all');
+            const scenariosContainer = document.getElementById('scenarios-container');
+            const importJsonButton = document.getElementById('import-json');
+            const jsonFileInput = document.getElementById('json-file');
+            
+            // Element-related DOM elements
+            const elementNameInput = document.getElementById('element-name');
+            const elementSelectorInput = document.getElementById('element-selector');
+            const elementTypeInput = document.getElementById('element-type');
+            const elementDescriptionInput = document.getElementById('element-description');
+            const addElementButton = document.getElementById('add-element');
+            const elementsContainer = document.getElementById('elements-container');
+            
+            // Add step to current scenario
+            addStepButton.addEventListener('click', function() {
+                const action = stepActionInput.value.trim();
+                const target = stepTargetInput.value.trim();
+                
+                if (!action || !target) {
+                    alert('Action and Target are required for each step.');
+                    return;
+                }
+                
+                // Create step object with only provided values
+                const step = {
+                    action,
+                    target
+                };
+                
+                // Only add value if provided
+                const value = stepValueInput.value.trim();
+                if (value) {
+                    step.value = value;
+                }
+                
+                // Only add snapshotName if provided
+                const snapshotName = stepSnapshotInput.value.trim();
+                if (snapshotName) {
+                    step.snapshotName = snapshotName;
+                }
+                
+                currentSteps.push(step);
+                renderCurrentSteps();
+                
+                // Clear step inputs
+                stepActionInput.value = '';
+                stepTargetInput.value = '';
+                stepValueInput.value = '';
+                stepSnapshotInput.value = '';
+                stepActionInput.focus();
+            });
+            
+            // Add new UI element
+            addElementButton.addEventListener('click', function() {
+                const name = elementNameInput.value.trim();
+                const selector = elementSelectorInput.value.trim();
+                const type = elementTypeInput.value;
+                
+                if (!name || !selector || !type) {
+                    alert('Name, Selector, and Type are required for each element.');
+                    return;
+                }
+                
+                const element = {
+                    name,
+                    selector,
+                    type,
+                    description: elementDescriptionInput.value.trim() || null
+                };
+                
+                elements.push(element);
+                updateElementsDropdown();
+                renderElements();
+                
+                // Clear element inputs
+                elementNameInput.value = '';
+                elementSelectorInput.value = '';
+                elementTypeInput.value = '';
+                elementDescriptionInput.value = '';
+                elementNameInput.focus();
+                
+                alert('Element added successfully!');
+            });
+            
+            // Save scenario
+            saveScenarioButton.addEventListener('click', function() {
+                const scenarioName = scenarioNameInput.value.trim();
+                
+                if (!scenarioName) {
+                    alert('Please enter a scenario name.');
+                    return;
+                }
+                
+                if (currentSteps.length === 0) {
+                    alert('Please add at least one step to the scenario.');
+                    return;
+                }
+                
+                const scenario = {
+                    name: scenarioName,
+                    steps: [...currentSteps]
+                };
+                
+                scenarios.push(scenario);
+                updateExistingScenariosDropdown();
+                renderSavedScenarios();
+                
+                // Reset form
+                scenarioNameInput.value = '';
+                currentSteps = [];
+                renderCurrentSteps();
+                
+                alert('Scenario saved successfully!');
+            });
+            
+            // Generate JSON
+            generateJsonButton.addEventListener('click', function() {
+                const jsonData = {
+                    scenarios: scenarios,
+                    elements: elements
+                };
+                
+                jsonOutput.textContent = JSON.stringify(jsonData, null, 2);
+            });
+            
+            // Copy JSON to clipboard
+            copyJsonButton.addEventListener('click', function() {
+                const jsonText = jsonOutput.textContent;
+                navigator.clipboard.writeText(jsonText)
+                    .then(() => {
+                        alert('JSON copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy JSON to clipboard.');
+                    });
+            });
+            
+            // Download JSON
+            downloadJsonButton.addEventListener('click', function() {
+                const jsonData = {
+                    scenarios: scenarios,
+                    elements: elements
+                };
+                
+                const jsonString = JSON.stringify(jsonData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'scenarios-and-elements.json';
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            });
+            
+            // Import JSON
+            importJsonButton.addEventListener('click', function() {
+                const file = jsonFileInput.files[0];
+                
+                if (!file) {
+                    alert('Please select a JSON file to import.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+                        
+                        // Import scenarios if they exist
+                        if (jsonData.scenarios && Array.isArray(jsonData.scenarios)) {
+                            // Validate each scenario
+                            for (const scenario of jsonData.scenarios) {
+                                if (!scenario.name || !scenario.steps || !Array.isArray(scenario.steps)) {
+                                    throw new Error('Invalid scenario format: each scenario must have a name and steps array');
+                                }
+                                
+                                for (const step of scenario.steps) {
+                                    if (!step.action || !step.target) {
+                                        throw new Error('Invalid step format: each step must have an action and target');
+                                    }
+                                }
+                            }
+                            
+                            scenarios = jsonData.scenarios;
+                            updateExistingScenariosDropdown();
+                            renderSavedScenarios();
+                        }
+                        
+                        // Import elements if they exist
+                        if (jsonData.elements && Array.isArray(jsonData.elements)) {
+                            // Validate each element
+                            for (const element of jsonData.elements) {
+                                if (!element.name || !element.selector || !element.type) {
+                                    throw new Error('Invalid element format: each element must have a name, selector, and type');
+                                }
+                            }
+                            
+                            elements = jsonData.elements;
+                            updateElementsDropdown();
+                            renderElements();
+                        }
+                        
+                        // Update JSON output
+                        jsonOutput.textContent = JSON.stringify(jsonData, null, 2);
+                        
+                        alert(`Successfully imported ${scenarios.length} scenario(s) and ${elements.length} element(s)!`);
+                    } catch (error) {
+                        alert(`Error importing JSON: ${error.message}`);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    alert('Error reading file');
+                };
+                
+                reader.readAsText(file);
+            });
+            
+            // Reset all data
+            resetAllButton.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                    scenarios = [];
+                    elements = [];
+                    currentSteps = [];
+                    scenarioNameInput.value = '';
+                    jsonFileInput.value = '';
+                    elementNameInput.value = '';
+                    elementSelectorInput.value = '';
+                    elementTypeInput.value = '';
+                    elementDescriptionInput.value = '';
+                    updateExistingScenariosDropdown();
+                    updateElementsDropdown();
+                    renderCurrentSteps();
+                    renderSavedScenarios();
+                    renderElements();
+                    jsonOutput.textContent = '{\n    "scenarios": [],\n    "elements": []\n}';
+                }
+            });
+            
+            // Update existing scenarios dropdown
+            function updateExistingScenariosDropdown() {
+                // Clear existing options except the first one
+                while (existingScenariosSelect.options.length > 1) {
+                    existingScenariosSelect.remove(1);
+                }
+                
+                // Add scenarios to dropdown
+                scenarios.forEach(scenario => {
+                    const option = document.createElement('option');
+                    option.value = scenario.name;
+                    option.textContent = scenario.name;
+                    existingScenariosSelect.appendChild(option);
+                });
+            }
+            
+            // Update elements dropdown
+            function updateElementsDropdown() {
+                // Clear existing options except the first one
+                while (stepTargetInput.options.length > 1) {
+                    stepTargetInput.remove(1);
+                }
+                
+                // Add elements to dropdown
+                elements.forEach(element => {
+                    const option = document.createElement('option');
+                    option.value = element.selector;
+                    option.textContent = `${element.name} (${element.selector})`;
+                    stepTargetInput.appendChild(option);
+                });
+            }
+            
+            // Render current steps
+            function renderCurrentSteps() {
+                if (currentSteps.length === 0) {
+                    stepsContainer.innerHTML = '<div class="empty-state">No steps added yet</div>';
+                    return;
+                }
+                
+                stepsContainer.innerHTML = '';
+                currentSteps.forEach((step, index) => {
+                    const stepElement = document.createElement('div');
+                    stepElement.className = 'step-item';
+                    
+                    let stepHtml = `
+                        <p><strong>Action:</strong> ${step.action}</p>
+                        <p><strong>Target:</strong> ${step.target}</p>
+                    `;
+                    
+                    if (step.value) {
+                        stepHtml += `<p><strong>Value:</strong> ${step.value}</p>`;
+                    }
+                    
+                    if (step.snapshotName) {
+                        stepHtml += `<p><strong>Snapshot:</strong> ${step.snapshotName}</p>`;
+                    }
+                    
+                    stepHtml += `
+                        <div class="step-actions">
+                            <button class="btn-remove" data-index="${index}">Remove</button>
+                        </div>
+                    `;
+                    
+                    stepElement.innerHTML = stepHtml;
+                    stepsContainer.appendChild(stepElement);
+                });
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.btn-remove').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        currentSteps.splice(index, 1);
+                        renderCurrentSteps();
+                    });
+                });
+            }
+            
+            // Render saved elements
+            function renderElements() {
+                if (elements.length === 0) {
+                    elementsContainer.innerHTML = '<div class="empty-state">No elements added yet</div>';
+                    return;
+                }
+                
+                elementsContainer.innerHTML = '';
+                elements.forEach((element, index) => {
+                    const elementElement = document.createElement('div');
+                    elementElement.className = 'element-item';
+                    
+                    let elementHtml = `
+                        <p><strong>Name:</strong> ${element.name}</p>
+                        <p><strong>Selector:</strong> <span class="element-selector">${element.selector}</span></p>
+                        <p><strong>Type:</strong> ${element.type}</p>
+                    `;
+                    
+                    if (element.description) {
+                        elementHtml += `<p><strong>Description:</strong> ${element.description}</p>`;
+                    }
+                    
+                    elementHtml += `
+                        <div class="element-actions">
+                            <button class="btn-remove" data-element-index="${index}">Delete Element</button>
+                        </div>
+                    `;
+                    
+                    elementElement.innerHTML = elementHtml;
+                    elementsContainer.appendChild(elementElement);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('[data-element-index]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-element-index'));
+                        if (confirm('Are you sure you want to delete this element?')) {
+                            elements.splice(index, 1);
+                            updateElementsDropdown();
+                            renderElements();
+                        }
+                    });
+                });
+            }
+            
+            // Render saved scenarios
+            function renderSavedScenarios() {
+                if (scenarios.length === 0) {
+                    scenariosContainer.innerHTML = '<div class="empty-state">No scenarios saved yet</div>';
+                    return;
+                }
+                
+                scenariosContainer.innerHTML = '';
+                scenarios.forEach((scenario, index) => {
+                    const scenarioElement = document.createElement('div');
+                    scenarioElement.className = 'scenario-item';
+                    
+                    let stepsHtml = '';
+                    scenario.steps.forEach(step => {
+                        let stepDetails = `
+                            <div style="margin-left: 15px; margin-top: 8px; padding: 8px; background: #e8f4fc; border-radius: 4px;">
+                                <p><strong>Action:</strong> ${step.action}</p>
+                                <p><strong>Target:</strong> ${step.target}</p>
+                        `;
+                        
+                        if (step.value) {
+                            stepDetails += `<p><strong>Value:</strong> ${step.value}</p>`;
+                        }
+                        
+                        if (step.snapshotName) {
+                            stepDetails += `<p><strong>Snapshot:</strong> ${step.snapshotName}</p>`;
+                        }
+                        
+                        stepDetails += `</div>`;
+                        stepsHtml += stepDetails;
+                    });
+                    
+                    scenarioElement.innerHTML = `
+                        <h3>${scenario.name}</h3>
+                        <p><strong>Steps:</strong> ${scenario.steps.length}</p>
+                        ${stepsHtml}
+                        <div class="step-actions">
+                            <button class="btn-remove" data-scenario-index="${index}">Delete Scenario</button>
+                        </div>
+                    `;
+                    scenariosContainer.appendChild(scenarioElement);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('[data-scenario-index]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-scenario-index'));
+                        if (confirm('Are you sure you want to delete this scenario?')) {
+                            scenarios.splice(index, 1);
+                            updateExistingScenariosDropdown();
+                            renderSavedScenarios();
+                        }
+                    });
+                });
+            }
+            
+            // Initialize the page
+            renderCurrentSteps();
+            renderSavedScenarios();
+            renderElements();
+        });
+    </script>
+</body>
+</html>

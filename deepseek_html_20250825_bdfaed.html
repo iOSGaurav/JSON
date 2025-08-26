@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Configuration Generator</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4cb5f5;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-section, .preview-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+        }
+        
+        .proxy-pairs {
+            margin-top: 10px;
+        }
+        
+        .proxy-pair {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .proxy-pair input {
+            flex: 1;
+        }
+        
+        .add-proxy {
+            background-color: var(--accent-color);
+            margin-top: 5px;
+        }
+        
+        .feature-item {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .feature-name {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .remove-feature {
+            background-color: var(--danger-color);
+            padding: 5px 10px;
+        }
+        
+        #jsonPreview {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .file-input {
+            margin-bottom: 1rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JSON Configuration Generator</h1>
+            <p class="description">Create and manage domain and feature resource configurations</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2>Domain Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="domainName">Domain Name:</label>
+                    <input type="text" id="domainName" placeholder="e.g., example.com">
+                </div>
+                
+                <h3>Header Fields</h3>
+                <div id="headerFields">
+                    <div class="form-group">
+                        <label for="headerKey1">Key:</label>
+                        <input type="text" id="headerKey1" placeholder="Header key">
+                    </div>
+                    <div class="form-group">
+                        <label for="headerValue1">Value:</label>
+                        <input type="text" id="headerValue1" placeholder="Header value">
+                    </div>
+                </div>
+                <button id="addHeaderField" class="add-proxy">Add Header Field</button>
+                
+                <h2>Feature Configuration</h2>
+                <div id="featuresContainer">
+                    <!-- Feature forms will be added here dynamically -->
+                </div>
+                <button id="addFeature" class="add-proxy">Add Feature</button>
+                
+                <div class="action-buttons">
+                    <button id="generateJson" class="btn-success">Generate JSON</button>
+                    <button id="importJson" class="btn-warning">Import JSON</button>
+                    <button id="downloadJson" class="btn-success" disabled>Download JSON</button>
+                    <button id="resetForm" class="btn-danger">Reset Form</button>
+                </div>
+                
+                <input type="file" id="jsonFileInput" class="file-input hidden" accept=".json">
+            </div>
+            
+            <div class="preview-section">
+                <h2>JSON Preview</h2>
+                <div id="jsonPreview">{
+    "domain": {},
+    "features": {}
+}</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const domainNameInput = document.getElementById('domainName');
+            const headerFieldsContainer = document.getElementById('headerFields');
+            const featuresContainer = document.getElementById('featuresContainer');
+            const addHeaderFieldBtn = document.getElementById('addHeaderField');
+            const addFeatureBtn = document.getElementById('addFeature');
+            const generateJsonBtn = document.getElementById('generateJson');
+            const importJsonBtn = document.getElementById('importJson');
+            const downloadJsonBtn = document.getElementById('downloadJson');
+            const resetFormBtn = document.getElementById('resetForm');
+            const jsonFileInput = document.getElementById('jsonFileInput');
+            const jsonPreview = document.getElementById('jsonPreview');
+            
+            let headerFieldCount = 1;
+            let featureCount = 0;
+            
+            // Add header field
+            addHeaderFieldBtn.addEventListener('click', function() {
+                headerFieldCount++;
+                const headerFieldHtml = `
+                    <div class="form-group">
+                        <label for="headerKey${headerFieldCount}">Key:</label>
+                        <input type="text" id="headerKey${headerFieldCount}" placeholder="Header key">
+                    </div>
+                    <div class="form-group">
+                        <label for="headerValue${headerFieldCount}">Value:</label>
+                        <input type="text" id="headerValue${headerFieldCount}" placeholder="Header value">
+                    </div>
+                `;
+                headerFieldsContainer.insertAdjacentHTML('beforeend', headerFieldHtml);
+            });
+            
+            // Add feature
+            addFeatureBtn.addEventListener('click', function() {
+                featureCount++;
+                const featureHtml = `
+                    <div class="feature-item" data-feature-id="${featureCount}">
+                        <div class="feature-header">
+                            <span class="feature-name">Feature ${featureCount}</span>
+                            <button class="remove-feature">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="featureName${featureCount}">Feature Name:</label>
+                            <input type="text" id="featureName${featureCount}" placeholder="Feature name">
+                        </div>
+                        <div class="form-group">
+                            <label for="featureHost${featureCount}">Host:</label>
+                            <input type="text" id="featureHost${featureCount}" placeholder="e.g., api.example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Proxy:</label>
+                            <div class="proxy-pairs" id="proxyPairs${featureCount}">
+                                <div class="proxy-pair">
+                                    <input type="text" placeholder="Proxy key" class="proxy-key">
+                                    <input type="text" placeholder="Proxy value" class="proxy-value">
+                                </div>
+                            </div>
+                            <button class="add-proxy" data-feature="${featureCount}">Add Proxy Pair</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="featureMethod${featureCount}">Method:</label>
+                            <select id="featureMethod${featureCount}">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="HEAD">HEAD</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                            </select>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="featureHeader${featureCount}">
+                            <label for="featureHeader${featureCount}">Header</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="featureCategory${featureCount}">Category:</label>
+                            <input type="text" id="featureCategory${featureCount}" placeholder="Category">
+                        </div>
+                        <div class="form-group">
+                            <label for="featureFilePath${featureCount}">File Path:</label>
+                            <input type="text" id="featureFilePath${featureCount}" placeholder="e.g., /path/to/file">
+                        </div>
+                    </div>
+                `;
+                featuresContainer.insertAdjacentHTML('beforeend', featureHtml);
+                
+                // Add event listener for the new proxy button
+                document.querySelector(`.add-proxy[data-feature="${featureCount}"]`).addEventListener('click', function() {
+                    const proxyPairsContainer = document.getElementById(`proxyPairs${featureCount}`);
+                    const proxyPairHtml = `
+                        <div class="proxy-pair">
+                            <input type="text" placeholder="Proxy key" class="proxy-key">
+                            <input type="text" placeholder="Proxy value" class="proxy-value">
+                        </div>
+                    `;
+                    proxyPairsContainer.insertAdjacentHTML('beforeend', proxyPairHtml);
+                });
+                
+                // Add event listener for the remove feature button
+                const featureElement = document.querySelector(`[data-feature-id="${featureCount}"]`);
+                featureElement.querySelector('.remove-feature').addEventListener('click', function() {
+                    featureElement.remove();
+                });
+            });
+            
+            // Generate JSON
+            generateJsonBtn.addEventListener('click', function() {
+                const domainName = domainNameInput.value || 'example.com';
+                
+                // Collect header fields
+                const headers = {};
+                for (let i = 1; i <= headerFieldCount; i++) {
+                    const keyInput = document.getElementById(`headerKey${i}`);
+                    const valueInput = document.getElementById(`headerValue${i}`);
+                    
+                    if (keyInput && valueInput && keyInput.value && valueInput.value) {
+                        headers[keyInput.value] = valueInput.value;
+                    }
+                }
+                
+                // Collect features
+                const features = {};
+                const featureElements = document.querySelectorAll('.feature-item');
+                
+                featureElements.forEach(featureElement => {
+                    const featureId = featureElement.dataset.featureId;
+                    const nameInput = document.getElementById(`featureName${featureId}`);
+                    
+                    if (nameInput && nameInput.value) {
+                        const hostInput = document.getElementById(`featureHost${featureId}`);
+                        const methodSelect = document.getElementById(`featureMethod${featureId}`);
+                        const headerCheckbox = document.getElementById(`featureHeader${featureId}`);
+                        const categoryInput = document.getElementById(`featureCategory${featureId}`);
+                        const filePathInput = document.getElementById(`featureFilePath${featureId}`);
+                        
+                        // Collect proxy pairs
+                        const proxy = {};
+                        const proxyPairs = featureElement.querySelectorAll('.proxy-pair');
+                        proxyPairs.forEach(pair => {
+                            const keyInput = pair.querySelector('.proxy-key');
+                            const valueInput = pair.querySelector('.proxy-value');
+                            
+                            if (keyInput.value && valueInput.value) {
+                                proxy[keyInput.value] = valueInput.value;
+                            }
+                        });
+                        
+                        features[nameInput.value] = {
+                            host: hostInput ? hostInput.value : '',
+                            proxy: proxy,
+                            method: methodSelect ? methodSelect.value : 'GET',
+                            header: headerCheckbox ? headerCheckbox.checked : false,
+                            category: categoryInput ? categoryInput.value : '',
+                            filepath: filePathInput ? filePathInput.value : ''
+                        };
+                    }
+                });
+                
+                // Create the final JSON object
+                const jsonData = {
+                    domain: {
+                        name: domainName,
+                        headers: headers
+                    },
+                    features: features
+                };
+                
+                // Display the JSON
+                jsonPreview.textContent = JSON.stringify(jsonData, null, 2);
+                downloadJsonBtn.disabled = false;
+            });
+            
+            // Import JSON
+            importJsonBtn.addEventListener('click', function() {
+                jsonFileInput.click();
+            });
+            
+            jsonFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+                        populateFormFromJson(jsonData);
+                        jsonPreview.textContent = JSON.stringify(jsonData, null, 2);
+                        downloadJsonBtn.disabled = false;
+                    } catch (error) {
+                        alert('Error parsing JSON file: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+            
+            // Populate form from JSON data
+            function populateFormFromJson(jsonData) {
+                // Reset form first
+                resetForm();
+                
+                // Set domain name
+                if (jsonData.domain && jsonData.domain.name) {
+                    domainNameInput.value = jsonData.domain.name;
+                }
+                
+                // Set header fields
+                if (jsonData.domain && jsonData.domain.headers) {
+                    const headers = jsonData.domain.headers;
+                    let headerIndex = 1;
+                    
+                    for (const [key, value] of Object.entries(headers)) {
+                        if (headerIndex > 1) {
+                            addHeaderFieldBtn.click();
+                        }
+                        
+                        document.getElementById(`headerKey${headerIndex}`).value = key;
+                        document.getElementById(`headerValue${headerIndex}`).value = value;
+                        headerIndex++;
+                    }
+                }
+                
+                // Set features
+                if (jsonData.features) {
+                    for (const [name, feature] of Object.entries(jsonData.features)) {
+                        addFeatureBtn.click();
+                        
+                        const featureId = featureCount;
+                        document.getElementById(`featureName${featureId}`).value = name;
+                        
+                        if (feature.host) {
+                            document.getElementById(`featureHost${featureId}`).value = feature.host;
+                        }
+                        
+                        if (feature.method) {
+                            document.getElementById(`featureMethod${featureId}`).value = feature.method;
+                        }
+                        
+                        if (typeof feature.header === 'boolean') {
+                            document.getElementById(`featureHeader${featureId}`).checked = feature.header;
+                        }
+                        
+                        if (feature.category) {
+                            document.getElementById(`featureCategory${featureId}`).value = feature.category;
+                        }
+                        
+                        if (feature.filepath) {
+                            document.getElementById(`featureFilePath${featureId}`).value = feature.filepath;
+                        }
+                        
+                        // Set proxy pairs
+                        if (feature.proxy) {
+                            const proxyContainer = document.getElementById(`proxyPairs${featureId}`);
+                            // Remove the default proxy pair
+                            proxyContainer.innerHTML = '';
+                            
+                            for (const [key, value] of Object.entries(feature.proxy)) {
+                                const proxyPairHtml = `
+                                    <div class="proxy-pair">
+                                        <input type="text" placeholder="Proxy key" class="proxy-key" value="${key}">
+                                        <input type="text" placeholder="Proxy value" class="proxy-value" value="${value}">
+                                    </div>
+                                `;
+                                proxyContainer.insertAdjacentHTML('beforeend', proxyPairHtml);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Download JSON
+            downloadJsonBtn.addEventListener('click', function() {
+                const jsonString = jsonPreview.textContent;
+                if (!jsonString || jsonString === '{}') {
+                    alert('Please generate JSON first');
+                    return;
+                }
+                
+                try {
+                    JSON.parse(jsonString); // Validate JSON
+                    const blob = new Blob([jsonString], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'configuration.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    alert('Error in JSON: ' + error.message);
+                }
+            });
+            
+            // Reset form
+            resetFormBtn.addEventListener('click', resetForm);
+            
+            function resetForm() {
+                domainNameInput.value = '';
+                headerFieldsContainer.innerHTML = `
+                    <div class="form-group">
+                        <label for="headerKey1">Key:</label>
+                        <input type="text" id="headerKey1" placeholder="Header key">
+                    </div>
+                    <div class="form-group">
+                        <label for="headerValue1">Value:</label>
+                        <input type="text" id="headerValue1" placeholder="Header value">
+                    </div>
+                `;
+                featuresContainer.innerHTML = '';
+                jsonPreview.textContent = '{\n    "domain": {},\n    "features": {}\n}';
+                downloadJsonBtn.disabled = true;
+                headerFieldCount = 1;
+                featureCount = 0;
+            }
+        });
+    </script>
+</body>
+</html>

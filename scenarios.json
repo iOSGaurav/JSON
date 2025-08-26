@@ -1,0 +1,13 @@
+{
+  "scenarios": [
+    {
+      "name": "gfdgfd",
+      "steps": [
+        {
+          "action": "click",
+          "target": "gdfgdf"
+        }
+      ]
+    }
+  ]
+}
